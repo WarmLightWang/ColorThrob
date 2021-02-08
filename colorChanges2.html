@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <p>
+        Here is <span id="span">some text to make throb.</span>
+    </p>
+
+    <script type="module">
+        /**
+         * A function that makes an HTML element blink
+         * 
+         * This creates a function that does the blinking, and makes an animation loop
+         * with requestAnimationFrame
+         * 
+         * @param {string} id - which element to find
+         * @param {number} [rate=250] - blink rate in milliseconds
+         */
+        function makeBlink(id, rate) {
+            rate = rate ? rate : 250;
+            let toblink = document.getElementById(id);
+            //blinkColors = blinkColors ? blinkColors : ["red","yellow","green"];
+            let lastBlinkTime = 0;
+            let lastBlinkColor = 0;
+            function blinker() {
+                let time = performance.now();
+                if ((time - lastBlinkTime) > rate) {
+                    lastBlinkTime = time;
+                    // colors to cycle through black to red
+                    toblink.style.backgroundColor = "#" + hexColour(lastBlinkColor % 256) + "0000";
+                    //toblink.style.backgroundColor = blinkColors[lastBlinkColor % blinkColors.length];
+                    lastBlinkColor++;
+                }
+                window.requestAnimationFrame(blinker);
+            }
+            blinker();
+        }
+
+        function hexColour(c) {
+            if (c < 256) {
+                return Math.abs(c).toString(15);
+            }
+            return 0;
+        }
+        window.onload = function () {
+            makeBlink("span", 5);
+        }
+
+    </script>
+
+</body>
